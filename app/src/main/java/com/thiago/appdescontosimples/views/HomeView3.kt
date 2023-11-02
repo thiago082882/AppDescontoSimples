@@ -30,11 +30,13 @@ import com.thiago.appdescontosimples.components.MainTextField
 import com.thiago.appdescontosimples.components.SpaceH
 import com.thiago.appdescontosimples.components.TwoCards
 import com.thiago.appdescontosimples.viewModels.CalcularViewModel1
+import com.thiago.appdescontosimples.viewModels.CalcularViewModel2
+import com.thiago.appdescontosimples.viewModels.CalcularViewModel3
 import kotlin.math.round
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeView(viewModel1 :CalcularViewModel1) {
+fun HomeView3(viewModel3: CalcularViewModel3) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
             title = { Text(text = "App Desconto", color = Color.White) },
@@ -43,12 +45,12 @@ fun HomeView(viewModel1 :CalcularViewModel1) {
             )
         )
     }) {
-        HomeViewContent(it,viewModel1)
+        HomeViewContent3(it, viewModel3)
     }
 }
 
 @Composable
-fun HomeViewContent(paddingValues: PaddingValues,viewModel1: CalcularViewModel1) {
+fun HomeViewContent3(paddingValues: PaddingValues, viewModel3: CalcularViewModel3) {
     Column(
         modifier = Modifier
             .padding(paddingValues)
@@ -57,67 +59,45 @@ fun HomeViewContent(paddingValues: PaddingValues,viewModel1: CalcularViewModel1)
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var preco by remember {
-            mutableStateOf("")
-        }
-        var desconto by remember {
-            mutableStateOf("")
-        }
-        var precoDesconto by remember {
-            mutableStateOf(0.0)
-        }
-        var totalDesconto by remember {
-            mutableStateOf(0.0)
-        }
 
-        var showAlert by remember {
-            mutableStateOf(false)
-        }
+        val state = viewModel3.state
+
         TwoCards(
             title1 = "total",
-            number1 = totalDesconto,
+            number1 = state.totalDesconto,
             title2 = "Desconto",
-            number2 = precoDesconto
+            number2 = state.precoDesconto
         )
         MainTextField(
-            value = preco,
-            onValueChange = { preco = it },
+            value = state.preco,
+            onValueChange = { viewModel3.onValue(it, "preco") },
             label = "Preço"
         )
         SpaceH()
         MainTextField(
-            value = desconto,
-            onValueChange = { desconto = it },
+            value = state.desconto,
+            onValueChange = { viewModel3.onValue(it, "desconto") },
             label = "Desconto %"
         )
         SpaceH(10.dp)
         MainButton(text = "Gerar Desconto") {
 
-            val res = viewModel1.calcular(preco,desconto)
-            showAlert = res.second.second
-            if(!showAlert){
-                precoDesconto = res.first
-                totalDesconto = res.second.first
-            }
+            viewModel3.calcular()
 
 
-    }
+        }
         SpaceH()
         MainButton(text = "Limpar", color = Color.Red) {
 
-            preco = ""
-            desconto = ""
-            precoDesconto = 0.0
-            totalDesconto = 0.0
-
+            viewModel3.limpar()
         }
 
-        if (showAlert){
+        if (state.showAlert) {
             Alert(
                 title = "Alerta",
                 message = "Escreva o Preço e desconto",
                 confirmText = "Aceitar",
-                onConfirmClick = { showAlert = false }) {
+                onConfirmClick = { viewModel3.calcelAlert() }) {
 
             }
         }
