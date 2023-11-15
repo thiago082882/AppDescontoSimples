@@ -1,10 +1,5 @@
 
-# App-Delivery-Servidor-
-
-
-
-
-# <img align="center" alt="Daniel-HTML" height="30" width="30" src="https://cdn.icon-icons.com/icons2/2537/PNG/512/discount_tags_icon_152101.png"> Delivery APP 
+# <img align="center" alt="Daniel-HTML" height="30" width="30" src="https://cdn.icon-icons.com/icons2/2537/PNG/512/discount_tags_icon_152101.png"> Desconto APP 
 
 
 <div align="center">
